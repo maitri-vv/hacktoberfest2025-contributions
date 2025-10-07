@@ -715,12 +715,45 @@ body {
 }
 
 /* FIX: White Text on White Background */
+/* FIX: Dashboard Text Visibility in both themes */
+
+/* --- Original .text-white utility --- */
 .text-white {
-  /* Override the utility for light mode to ensure text is visible */
-  color: var(--text-primary); 
+  color: white;
+}
+
+/* FIX: Dashboard Text Visibility in both themes */
+/* --- Dashboard Numbers & Headings Fix --- */
+
+/* 1. Enforce DARK colors on ALL text utilities for LIGHT MODE (fixes light-on-light) */
+:not([data-theme="dark"]) .text-gray-900,
+:not([data-theme="dark"]) .text-gray-600,
+:not([data-theme="dark"]) .text-gray-700,
+:not([data-theme="dark"]) .text-white {
+    /* Set to the theme's default dark color to guarantee visibility on white background */
+    color: var(--text-primary) !important; 
+}
+
+
+/* 2. Enforce LIGHT colors on ALL text utilities for DARK MODE (fixes dark-on-dark) */
+
+[data-theme="dark"] .text-gray-900,
+[data-theme="dark"] .text-gray-600,
+[data-theme="dark"] .text-gray-700 {
+    /* For elements with light-mode utility classes, force them to the light primary color in dark mode */
+    color: var(--text-primary) !important; /* Should resolve to #FFFFFF */
+}
+
+/* Ensure ALL dark mode utilities are prioritized to white/light gray */
+[data-theme="dark"] .dark\:text-white {
+    color: white !important;
+}
+
+[data-theme="dark"] .dark\:text-gray-400 {
+    color: var(--text-secondary) !important;
 }
 
 [data-theme="dark"] .text-white {
-  /* Restore the utility for dark mode */
-  color: white; 
+    /* Ensures the pure .text-white utility is also white in dark mode */
+    color: white !important;
 }
